@@ -4,26 +4,30 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
-
 import br.com.senai.teste.model.Livro;
 import br.com.senai.teste.repository.LivroRepository;
 
-@Service 
+@Service
 public class LivroService {
     private final LivroRepository livroRepository;
-    public LivroService(LivroRepository livroRepository){
+
+    public LivroService(LivroRepository livroRepository) {
         this.livroRepository = livroRepository;
     }
-public Livro cadastrarLivro(Livro livro){
 
-    return livroRepository.save(livro);
-}
-public List<Livro> listar(){
-    return livroRepository. findAlll();
+    public Livro cadastrarLivro(Livro livro) {
 
-}public Optional <Livro> buscarPorId(Integer id) {
-        return livroRepository.findByyId(id);
+        return livroRepository.save(livro);
+    }
+
+    public List<Livro> listar() {
+
+        return livroRepository.findAll();
+
+    }
+
+    public Optional<Livro> buscarPorId(Integer id) {
+        return livroRepository.findById(id);
 
     }
 
@@ -38,7 +42,7 @@ public List<Livro> listar(){
 
         Livro livro = livroEncontrado.get();
         livro.setAnoPublicacao(novosDados.getAnoPublicacao());
-        livro.setTitulo(novosDados.GetTitulo());
+        livro.setTitulo(novosDados.getTitulo());
         livro.setAutor(novosDados.getAutor());
 
         return Optional.of(livroRepository.save(livro));
@@ -53,5 +57,5 @@ public List<Livro> listar(){
         livroRepository.deleteById(id);
         return true;
 
-}
+    }
 }

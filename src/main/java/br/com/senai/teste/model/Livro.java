@@ -5,53 +5,60 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity 
-@Table(name = "Livros")
+@Entity
+@Table(name = "livros")
 public class Livro {
-    @Id 
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String titulo; 
-    private String autor;
+    @Min  ( value = 1, message = "O ano dePublicação deve ser maior que zero ")
     private int anoPublicacao;
+    @NotBlank (message = "O titulo é obrigatório")
+    private String titulo;
+    @NotBlank (message =  "O autor é obrigatorio")
+    private String autor;
+    
 
     public Livro() {
     }
-    public Livro( int anoPublicacao, String titulo, String autor){
+
+    public Livro(int anoPublicacao, String titulo, String autor) {
         this.anoPublicacao = anoPublicacao;
         this.titulo = titulo;
         this.autor = autor;
-        
+
     }
 
-
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-
-    public String GetTitulo(String titulo){
+    public String getTitulo() {
         return titulo;
     }
-    public void setTitulo(){
-        this.titulo = titulo;;
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
-     public String getAutor(String autor) {
-                return autor;
-}
-    public void setAutor(){
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
         this.autor = autor;
     }
-        public int getAnoPublicacao(int anoPublicacao){
-        return  anoPublicacao;
+
+    public int getAnoPublicacao() {
+        return anoPublicacao;
     }
-    public void setAnoPublicacao(){
+
+    public void setAnoPublicacao(int anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
     }
 
 }
-
-
