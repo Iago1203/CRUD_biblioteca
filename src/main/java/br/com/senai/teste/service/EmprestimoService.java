@@ -1,7 +1,7 @@
 package br.com.senai.teste.service;
 
-
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -28,7 +28,9 @@ public class EmprestimoService {
         this.livroRepository = livroRepository;
 
     }
-
+    public List<Emprestimo> listar(){
+        return emprestimoRepository.findAll();
+    }
     public Optional<Emprestimo> cadastrar(Integer alunoId, Integer livroId) {
         Optional<Aluno> aluno = alunoRepository.findById(alunoId);
         Optional<Livro> livro = livroRepository.findById(livroId);
@@ -39,8 +41,26 @@ public class EmprestimoService {
         emprestimo.setAluno(aluno.get());
         emprestimo.setLivro(livro.get());
         emprestimo.setDataEmprestimo(LocalDate.now());
-        
+
         return Optional.of(emprestimoRepository.save(emprestimo));
     }
+    public Optional<Emprestimo> bucarPorId(Integer id){
+        return emprestimoRepository.findById(id);
+    }
 
+    public Optional<Emprestimo> devolver (Integer id){
+        Optional<Emprestimo> encontrado = emprestimoRepository.findById(id);
+        
+        if(encontrado.isEmpty()){
+            return Optional.empty();
+        }
+        Emprestimo emprestimo = encontrado.get();
+        
+        if(emprestimo.getDataDevolucao() == null){
+            emprestimo.setDataDevolucao(LocalDate.now());
+            emprestimoRepository.save(emprestimo);
+        }
+        return Optional.of(emprestimo);
+    }
+    
 }
