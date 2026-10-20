@@ -35,7 +35,7 @@ public class EmprestimoService {
         return emprestimoRepository.findAll();
     }
 
-    public Optional<Emprestimo> cadastrar(Integer alunoId, Integer livroId) {
+    public Optional<Emprestimo> cadastrar(Integer alunoId, Integer livroId, LocalDate dataPrevistaDevolucao) {
         Optional<Aluno> aluno = alunoRepository.findById(alunoId);
         Optional<Livro> livro = livroRepository.findById(livroId);
 
@@ -55,7 +55,7 @@ public class EmprestimoService {
         emprestimo.setAluno(aluno.get());
         emprestimo.setLivro(livro.get());
         emprestimo.setDataEmprestimo(LocalDate.now());
-
+        emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
         return Optional.of(emprestimoRepository.save(emprestimo));
     }
 
@@ -81,12 +81,14 @@ public class EmprestimoService {
     public List<Emprestimo> listarAtivos() {
         return emprestimoRepository.findByDataDevolucaoIsNull();
     }
-    public List<Emprestimo> listarPorAluno(Integer alunoId){
+
+    public List<Emprestimo> listarPorAluno(Integer alunoId) {
         return emprestimoRepository.findByAlunoId(alunoId);
     }
 
-    public List<Emprestimo> listarPorLivros(Integer livroId){
+    public List<Emprestimo> listarPorLivros(Integer livroId) {
         return emprestimoRepository.findByLivroId(livroId);
     }
+
     
 }

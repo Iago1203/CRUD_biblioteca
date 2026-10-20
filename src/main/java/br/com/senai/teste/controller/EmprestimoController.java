@@ -1,5 +1,6 @@
 package br.com.senai.teste.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.senai.teste.dto.EmprestimoRequest;
 import br.com.senai.teste.model.Emprestimo;
 import br.com.senai.teste.service.EmprestimoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/emprestimos")
@@ -34,14 +36,18 @@ public class EmprestimoController {
     }
 
     @PostMapping
-    public ResponseEntity<Emprestimo> cadastrar(@RequestBody EmprestimoRequest dados) {
+    public ResponseEntity<Emprestimo> cadastrar(@Valid @RequestBody EmprestimoRequest dados) {
         Integer alunoId = dados.getAlunoId();
         Integer livroId = dados.getLivroId();
 
-        if (alunoId == null || livroId == null) {
+        LocalDate dataPrevistaDevolucao = dados.getDataPrevistaDevolucao();
+
+        if (alunoId == null || livroId == null
+                || dataPrevistaDevolucao == null) {
             return ResponseEntity.badRequest().build();
         }
-        Optional<Emprestimo> emprestimo = emprestimoService.cadastrar(alunoId, livroId);
+
+        Optional<Emprestimo> emprestimo = emprestimoService.cadastrar(alunoId, livroId, dataPrevistaDevolucao);
 
         if (emprestimo.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -93,4 +99,5 @@ public class EmprestimoController {
         List<Emprestimo> emprestimos = emprestimoService.listarPorLivros(livroId);
         return ResponseEntity.ok(emprestimos);
     }
+
 }

@@ -69,4 +69,13 @@ public class Emprestimo {
         this.dataDevolucao = dataDevolucao;
     }
     
+    private LocalDate dataPrevistaDevolucao;
+
+    public LocalDate getDataPrevistaDevolucao(){
+        return dataPrevistaDevolucao;
+    }
+
+    public void setDataPrevistaDevolucao(LocalDate dataPrevistaDevolucao){
+        this.dataPrevistaDevolucao = dataPrevistaDevolucao;
+    }
 }

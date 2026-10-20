@@ -1,5 +1,6 @@
 package br.com.senai.teste.repository;
 
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,6 @@ public interface EmprestimoRepository
         List<Emprestimo> findByAlunoId(Integer alunoId);
 
         List<Emprestimo> findByLivroId(Integer LivroId);
-        
+       
 
 }
