@@ -90,5 +90,17 @@ public class EmprestimoService {
         return emprestimoRepository.findByLivroId(livroId);
     }
 
+    public List<Emprestimo> listarAtrasados() {
+    return emprestimoRepository
+            .findByDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNull(
+                    LocalDate.now());
+}
+
+    public List<Emprestimo> listarAtrasadosPorAluno(Integer alunoId) {
+    return emprestimoRepository
+            .findByAlunoIdAndDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNull(
+                    alunoId, LocalDate.now());
+}
+
     
 }

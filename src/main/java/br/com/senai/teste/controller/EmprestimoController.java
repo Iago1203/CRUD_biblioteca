@@ -100,4 +100,24 @@ public class EmprestimoController {
         return ResponseEntity.ok(emprestimos);
     }
 
+
+    @GetMapping("/atrasados")
+public ResponseEntity<List<Emprestimo>> 
+    listarAtrasados() {
+    
+    List<Emprestimo> emprestimos = emprestimoService.listarAtrasados();
+    
+    return ResponseEntity.ok(emprestimos);
+}
+
+  @GetMapping("alunos/{Id}/atrasados")
+public ResponseEntity<List<Emprestimo>>
+    listarAtrasadosPorAluno(@PathVariable Integer Id) {
+    
+    List<Emprestimo> emprestimos = emprestimoService.listarAtrasadosPorAluno(Id);
+    
+    return ResponseEntity.ok(emprestimos);
+}
+
+
 }
