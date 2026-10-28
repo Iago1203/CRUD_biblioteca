@@ -53,7 +53,7 @@ public class EmprestimoService {
         }
         Emprestimo emprestimo = new Emprestimo();
         emprestimo.setAluno(aluno.get());
-        emprestimo.setLivro(livro.get());
+        emprestimo.setLivro(livro.get(
         emprestimo.setDataEmprestimo(LocalDate.now());
         emprestimo.setDataPrevistaDevolucao(dataPrevistaDevolucao);
         return Optional.of(emprestimoRepository.save(emprestimo));
@@ -100,6 +100,38 @@ public class EmprestimoService {
     return emprestimoRepository
             .findByAlunoIdAndDataPrevistaDevolucaoBeforeAndDataDevolucaoIsNull(
                     alunoId, LocalDate.now());
+}
+    public Optional<Emprestimo> renovar(
+        Integer id,
+        LocalDate novaDataPrevista) {
+
+    Optional<Emprestimo> emprestimoOptional = emprestimoRepository.findById(id);
+
+    if (emprestimoOptional.isEmpty()) {
+        return Optional.empty();
+    }
+
+    Emprestimo emprestimo = emprestimoOptional.get();
+
+    if (emprestimo.getDataDevolucao() != null) {
+        throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Um empréstimo devolvido não pode ser renovado");
+    }
+
+    if (!novaDataPrevista.isAfter(
+        emprestimo.getDataPrevistaDevolucao())) {
+
+    throw new ResponseStatusException(
+            HttpStatus.CONFLICT,
+            "A nova data deve ser posterior ao prazo atual");
+}
+
+    emprestimo.setDataPrevistaDevolucao(
+            novaDataPrevista);
+
+    return Optional.of(
+            emprestimoRepository.save(emprestimo));
 }
 
     

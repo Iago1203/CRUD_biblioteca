@@ -1,3 +1,9 @@
+package br.com.senai.teste.dto;
+
+import java.time.LocalDate;
+
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 
 public class RenovacaoRequest{
     @NotNull(message ="A data é obrigatória")

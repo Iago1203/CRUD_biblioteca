@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import br.com.senai.teste.dto.RenovacaoRequest;
 
 import br.com.senai.teste.dto.EmprestimoRequest;
 import br.com.senai.teste.model.Emprestimo;
@@ -117,6 +118,21 @@ public ResponseEntity<List<Emprestimo>>
     List<Emprestimo> emprestimos = emprestimoService.listarAtrasadosPorAluno(Id);
     
     return ResponseEntity.ok(emprestimos);
+}
+@PatchMapping("/{id}/renovacao")
+public ResponseEntity<Emprestimo> renovar(
+        @PathVariable Integer id,
+        @Valid @RequestBody RenovacaoRequest dados) {
+
+    Optional<Emprestimo> emprestimo = emprestimoService.renovar(
+            id,
+            dados.getNovaDataDevolucao());
+
+    if (emprestimo.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    return ResponseEntity.ok(emprestimo.get());
 }
 
 
